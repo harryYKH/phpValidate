@@ -1,5 +1,5 @@
 {
-    "name": "harryYkh/webman-validate",
+    "name": "harry-ykh/webman-validate",
     "autoload": {
         "psr-4": {
             "harry\\": "src/"
