@@ -11,8 +11,7 @@
 declare (strict_types = 1);
 
 namespace harry;
-use Closure;
-use support\Db;
+use Closure; 
 use harry\helper\Str;
 use SplFileInfo as File;
 use Webman\Http\Request; 
