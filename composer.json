@@ -1,0 +1,15 @@
+{
+    "name": "harry/webman-validate",
+    "autoload": {
+        "psr-4": {
+            "harry\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tarquinius1995",
+            "email": "tarquinius1995@gmail.com"
+        }
+    ],
+    "require": {}
+}
