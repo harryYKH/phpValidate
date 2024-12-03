@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types = 1);
 
-namespace harry\validate;
+namespace harry;
 use Closure;
 use support\Db;
 use harry\helper\Str;
