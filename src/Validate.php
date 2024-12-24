@@ -199,19 +199,7 @@ class Validate
      * @var array
      */
     protected $regex = [];
-
-    /**
-     * Db对象
-     * @var Db
-     */
-    protected $db;
-
-    /**
-     * 语言对象
-     * @var Lang
-     */
-    protected $lang;
-
+  
     /**
      * 请求对象
      * @var Request
@@ -246,39 +234,6 @@ class Validate
     {
         static::$maker[] = $maker;
     }
-
-    /**
-     * 设置Lang对象
-     * @access public
-     * @param Lang $lang Lang对象
-     * @return void
-     */
-    // public function setLang(Lang $lang)
-    // {
-    //     $this->lang = $lang;
-    // }
-
-    /**
-     * 设置Db对象
-     * @access public
-     * @param Db $db Db对象
-     * @return void
-     */
-    // public function setDb(Db $db)
-    // {
-    //     $this->db = $db;
-    // }
-
-    /**
-     * 设置Request对象
-     * @access public
-     * @param Request $request Request对象
-     * @return void
-     */
-    // public function setRequest(Request $request)
-    // {
-    //     $this->request = $request;
-    // }
 
     /**
      * 添加字段验证规则
@@ -647,7 +602,7 @@ class Validate
                 if (!empty($msg[$i])) {
                     $message = $msg[$i];
                     if (is_string($message) && str_starts_with($message, '{%')) {
-                        $message = $this->lang->get(substr($message, 2, -1));
+                        $message = substr($message, 2, -1);
                     }
                 } else {
                     $message = $this->getRuleMsg($field, $title, $info, $rule);
@@ -879,15 +834,6 @@ class Validate
             return false;
         }
     }
-
-    /**
-     * 验证表单令牌
-     * @access public
-     * @param mixed $value 字段值
-     * @param mixed $rule  验证规则
-     * @param array $data  数据
-     * @return bool
-     */
      
     /**
      * 验证是否为合格的域名或者IP 支持A，MX，NS，SOA，PTR，CNAME，AAAA，A6， SRV，NAPTR，TXT 或者 ANY类型
@@ -1121,66 +1067,6 @@ class Validate
     {
         $info = date_parse_from_format($rule, $value);
         return 0 == $info['warning_count'] && 0 == $info['error_count'];
-    }
-
-    /**
-     * 验证是否唯一
-     * @access public
-     * @param mixed  $value 字段值
-     * @param mixed  $rule  验证规则 格式：数据表,字段名,排除ID,主键名
-     * @param array  $data  数据
-     * @param string $field 验证字段名
-     * @return bool
-     */
-    public function unique($value, $rule, array $data = [], string $field = ''): bool
-    {
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
-
-        if (str_contains($rule[0], '\\')) {
-            // 指定模型类
-            $db = new $rule[0];
-        } else {
-            $db = $this->db->table($rule[0]);
-        }
-
-        $key = $rule[1] ?? $field;
-        $map = [];
-
-        if (str_contains($key, '^')) {
-            // 支持多个字段验证
-            $fields = explode('^', $key);
-            foreach ($fields as $key) {
-                if (isset($data[$key])) {
-                    $map[] = [$key, '=', $data[$key]];
-                }
-            }
-        } elseif (strpos($key, '=')) {
-            // 支持复杂验证
-            parse_str($key, $array);
-            foreach ($array as $k => $val) {
-                $map[] = [$k, '=', $data[$k] ?? $val];
-            }
-        } elseif (isset($data[$field])) {
-            $map[] = [$key, '=', $data[$field]];
-        }
-
-        $pk = !empty($rule[3]) ? $rule[3] : $db->getPk();
-
-        if (is_string($pk)) {
-            if (isset($rule[2])) {
-                $map[] = [$pk, '<>', $rule[2]];
-            } elseif (isset($data[$pk])) {
-                $map[] = [$pk, '<>', $data[$pk]];
-            }
-        }
-
-        if ($db->where($map)->field($pk)->find()) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -1582,7 +1468,7 @@ class Validate
         } elseif (str_starts_with($type, 'require')) {
             $msg = $this->typeMsg['require'];
         } else {
-            $msg = $title . $this->lang->get('not conform to the rules');
+            $msg = $title . 'not conform to the rules';
         }
 
         if (is_array($msg)) {
@@ -1603,9 +1489,7 @@ class Validate
     protected function parseErrorMsg(string $msg, $rule, string $title)
     {
         if (str_starts_with($msg, '{%')) {
-            $msg = $this->lang->get(substr($msg, 2, -1));
-        } elseif ($this->lang->has($msg)) {
-            $msg = $this->lang->get($msg);
+            $msg = substr($msg, 2, -1);
         }
 
         if (is_array($msg)) {
