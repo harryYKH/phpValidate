@@ -3,7 +3,10 @@
     "autoload": {
         "psr-4": {
             "harry\\": "src/"
-        }
+        },
+        "files": [
+            "src/helper.php"
+        ]
     },
     "authors": [
         {
