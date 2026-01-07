@@ -16,7 +16,7 @@ use Closure;
 
 /**
  * Class ValidateRuleSet
- * @package think\validate
+ * @package harry\validate
  */
 class ValidateRuleSet
 {

@@ -1,23 +1,54 @@
-<div style="padding:18px;max-width: 1024px;margin:0 auto;background-color:#fff;color:#333">
-<h1>validate</h1>
+# PHP Validate
 
-基于 Thinkphp8.x 框架 validate 扩展
+A standalone, framework-agnostic PHP validation library refactored from ThinkPHP's validator.
+这是一个基于 ThinkPHP 框架验证器改造的独立 PHP 验证库，可用于任何 PHP 项目。
 
-<h1>不限制使用的框架 </h1>
+## Features / 特性
 
-<h1>删除的验证</h1>
+- **Framework Agnostic / 框架无关**: Can be used in any PHP project (Laravel, Symfony, Slim, plain PHP, etc.).
+- **Standalone / 独立**: No dependencies on ThinkPHP core, ORM, or other components.
+- **Easy to Use / 简单易用**: Familiar API for ThinkPHP users.
 
-<ul>
-  <li> db 查询的 唯一验证</li>
-  <li> 多语言</li>
-  <li> 表单令牌 </li>
+## Requirements / 环境要求
 
-</ul>
+- PHP >= 8.1
 
-<div style="clear: both">
-<h1>LICENSE</h1>
-The webman is open-sourced software licensed under the MIT.
-</div>
+## Installation / 安装
 
-</div>
+```bash
+composer require harry-ykh/php-validate
+```
 
+## Usage / 使用
+
+```php
+use harry\Validate;
+
+$data = [
+    'name' => 'harry',
+    'email' => 'test@example.com'
+];
+
+$validate = new Validate();
+$validate->rule([
+    'name'  => 'require|max:25',
+    'email' => 'email'
+]);
+
+if (!$validate->check($data)) {
+    var_dump($validate->getError());
+}
+```
+
+## Removed Features / 移除的特性
+
+Compared to the original ThinkPHP validator, the following dependencies have been removed:
+相较于原版 ThinkPHP 验证器，移除了以下依赖：
+
+- **Database Unique Validation / 数据库唯一性验证**: Removed dependency on `think-orm` (`unique` rule).
+- **Multi-language Support / 多语言支持**: Removed dependency on `think-lang` (Simplified error messages).
+- **Token Validation / 表单令牌**: Removed dependency on `think-session/request` (`token` rule).
+
+## License
+
+Apache-2.0

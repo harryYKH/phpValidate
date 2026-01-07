@@ -5,7 +5,9 @@
 // | Copyright (c) 2006-2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------  
+// +----------------------------------------------------------------------
+// | Author: yunwuxin <448901948@qq.com>
+// +----------------------------------------------------------------------
 declare (strict_types = 1);
 
 namespace harry\exception;
@@ -15,12 +17,9 @@ namespace harry\exception;
  */
 class ValidateException extends \RuntimeException
 {
-    protected $error;
-
-    public function __construct($error)
+    public function __construct(protected $error, protected $key = '')
     {
-        $this->error   = $error;
-        $this->message = is_array($error) ? implode(PHP_EOL, $error) : $error;
+        $this->message = is_array($error) ? json_encode($error) : $error;
     }
 
     /**
@@ -32,4 +31,15 @@ class ValidateException extends \RuntimeException
     {
         return $this->error;
     }
+
+    /**
+     * 获取验证错误字段
+     * @access public
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
 }

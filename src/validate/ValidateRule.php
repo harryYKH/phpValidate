@@ -14,7 +14,7 @@ namespace harry\validate;
 
 /**
  * Class ValidateRule
- * @package think\validate
+ * @package harry\validate
  * @method static ValidateRule confirm(mixed $rule, string $msg = '') 验证是否和某个字段的值一致
  * @method static ValidateRule different(mixed $rule, string $msg = '') 验证是否和某个字段的值是否不同
  * @method static ValidateRule egt(mixed $rule, string $msg = '') 验证是否大于等于某个值
